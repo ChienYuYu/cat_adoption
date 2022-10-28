@@ -1,7 +1,7 @@
 <template>
  <div class="container p-2 mb-5">
   <div class="row justify-content-center">
-    <div class="col-2">
+    <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example">
         <option selected>請選擇縣市</option>
         <option value="1">One</option>
@@ -9,7 +9,7 @@
         <option value="3">Three</option>
       </select>
     </div>
-    <div class="col-2">
+    <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example">
         <option selected>請選擇區域</option>
         <option value="1">One</option>
@@ -17,7 +17,7 @@
         <option value="3">Three</option>
       </select>
     </div>
-    <div class="col-2">
+    <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example">
         <option selected>請選擇性別</option>
         <option value="1">公</option>

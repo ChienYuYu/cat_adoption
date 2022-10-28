@@ -3,8 +3,8 @@
 
     <div class="row mb-5">
 
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
+      <div class="col-12 col-lg-4">
+        <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
               <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdHxlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start" alt="cat">
@@ -19,8 +19,8 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
+      <div class="col-12 col-lg-4">
+        <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
               <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdHxlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start" alt="cat">
@@ -35,8 +35,8 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
+      <div class="col-12 col-lg-4">
+        <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
               <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdHxlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start" alt="cat">
@@ -65,6 +65,6 @@ export default {
 
 <style lang="scss" scoped>
   .cat-list{
-    height: 80vh;
+    // height: 80vh;
   }
 </style>
