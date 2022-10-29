@@ -3,54 +3,36 @@
 
     <div class="row mb-5">
 
-      <div class="col-12 col-lg-4">
-        <div class="card mb-3">
+      <div class="col-12 col-lg-4" v-for="c in filterCat" :key="c.animal_id">
+        <div class="card mb-3" @click="catDetail" @keydown="catDetail">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdHxlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start" alt="cat">
+              <img :src="c.album_file" class="img-fluid rounded-start" alt="cat">
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a .</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <h5>{{ c.animal_colour }}貓咪 性別：{{ sexDataTransform(c.animal_sex)}}</h5>
+                <p class="card-text mb-0">收容所：{{ c.shelter_name }}</p>
+                <p class="card-text mb-0">地址：{{ c.shelter_address }}</p>
+                <p class="card-text mb-0">
+                  <small class="text-muted">電話：{{ c.shelter_tel }}</small>
+                </p>
+                <p class="card-text mb-0">
+                  <small class="text-muted">更新日期：{{ c.cDate }}</small>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-12 col-lg-4">
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdHxlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start" alt="cat">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a .</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+      <div class="text-center"  v-if="isLoading === false">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <div class="col-12 col-lg-4">
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdHxlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start" alt="cat">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a .</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+      <h2 class="text-center"
+      v-if="isLoading === true && filterCat.length === 0">查無資料</h2>
 
     </div>
   </div>
@@ -59,12 +41,74 @@
 <script>
 // https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL
 export default {
+  data() {
+    return {
+      catData: [],
+      selectData: {},
+      isLoading: false,
+    };
+  },
+  mounted() {
+    const apiUrl = 'https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL';
+    this.axios.get(apiUrl)
+      .then((res) => {
+        this.catData = res.data.filter((item) => item.animal_kind === '貓');
+        this.isLoading = true;
+      });
 
+    this.getSelect();
+  },
+  computed: {
+    filterCat() {
+      // if (this.selectData !== {}) {
+      //   return this.catData.filter((item) => item.shelter_address.match(this.selectData.city));
+      //   // !!!!!!!!!!!!!!!!!!
+      // }
+      if (this.selectData !== {}) {
+        if (this.selectData.city !== '請選擇縣市' && this.selectData.sex === '請選擇性別') {
+          return this.catData.filter((item) => item.shelter_address.match(this.selectData.city));
+        }
+        if (this.selectData.city === '請選擇縣市' && this.selectData.sex !== '請選擇性別') {
+          return this.catData.filter((item) => item.animal_sex.match(this.selectData.sex));
+        }
+        return this.catData.filter((item) => item.shelter_address.match(this.selectData.city)
+          && item.animal_sex.match(this.selectData.sex));
+      }
+      return this.catData;
+    },
+  },
+  methods: {
+    catDetail() {
+      console.log('由這邊轉跳詳細頁面');
+    },
+    getSelect() {
+      this.$emitter.on('selectData', (data) => {
+        this.selectData = data;
+        console.log(data);
+      });
+    },
+    sexDataTransform(sex) {
+      if (sex === 'M') {
+        return '公';
+      }
+      if (sex === 'F') {
+        return '母';
+      }
+      return '不明';
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
   .cat-list{
     // height: 80vh;
+  }
+  .card {
+    cursor: pointer;
+      img{
+      height: 100%;
+      object-fit: cover;
+    }
   }
 </style>

@@ -1,30 +1,29 @@
 <template>
- <div class="container p-2 mb-5">
+ <div class="container p-lg-2 mb-5">
   <div class="row justify-content-center">
     <div class="col-md-3 m-1">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>請選擇縣市</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select class="form-select" aria-label="Default select example"
+      v-model="myCity"
+      @change="transmissionData">
+        <option disabled>請選擇縣市</option>
+        <option v-for="c in city" :key="c" :value="c">{{c}}</option>
       </select>
     </div>
     <div class="col-md-3 m-1">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>請選擇區域</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select class="form-select" aria-label="Default select example"
+      v-model="sex"
+      @change="transmissionData">
+        <option disabled>請選擇性別</option>
+        <option value="M">公</option>
+        <option value="F">母</option>
+        <option value="N">不明</option>
       </select>
     </div>
-    <div class="col-md-3 m-1">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>請選擇性別</option>
-        <option value="1">公</option>
-        <option value="2">母</option>
-        <option value="3">不明</option>
+    <!-- <div class="col-md-3 m-1">
+      <select class="form-select" aria-label="Default select example" v-model="sex">
+        <option disabled>請選擇花色</option>
       </select>
-    </div>
+    </div> -->
   </div>
  </div>
 </template>
@@ -35,13 +34,17 @@
 export default {
   data() {
     return {
-      city: '',
-      dist: '',
-      sex: '',
+      city: ['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣'],
+      myCity: '請選擇縣市',
+      sex: '請選擇性別',
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    transmissionData() {
+      this.$emitter.emit('selectData', { city: this.myCity, sex: this.sex });
+    },
+  },
 };
 </script>
 
