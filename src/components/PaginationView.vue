@@ -38,6 +38,7 @@ export default {
     };
   },
   mounted() {
+    // 從CatList.vue傳過來的
     this.$emitter.on('pageData', (data) => {
       this.totalPage = data;
     });

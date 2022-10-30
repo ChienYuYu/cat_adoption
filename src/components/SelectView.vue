@@ -25,6 +25,10 @@
       </select>
     </div> -->
   </div>
+  <div class="d-flex mt-3">
+    <button class="btn btn-outline-danger mx-auto"
+    @click="reset">清除篩選條件</button>
+  </div>
  </div>
 </template>
 
@@ -41,8 +45,14 @@ export default {
   },
   mounted() {},
   methods: {
+    // 傳到CatList.vue
     transmissionData() {
       this.$emitter.emit('selectData', { city: this.myCity, sex: this.sex });
+    },
+    reset() {
+      this.sex = '請選擇性別';
+      this.myCity = '請選擇縣市';
+      this.$emitter.emit('selectData', {});
     },
   },
 };
