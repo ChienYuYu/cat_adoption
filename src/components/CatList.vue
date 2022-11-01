@@ -2,8 +2,8 @@
   <div class="cat-list container mb-5">
     <div class="row mb-5">
 
-      <div class="col-12 col-lg-4" v-for="c in showCat" :key="c.animal_id">
-        <div class="card mb-3" @click="catPhoto(c.album_file)" @keydown="catPhoto">
+      <div class="col-12 col-lg-4" v-for="c in showData" :key="c.animal_id">
+        <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
               <img :src="c.album_file" class="img-fluid rounded-start" alt="cat">
@@ -32,56 +32,18 @@
       </div>
 
     </div>
-
-    <!-- ------ 頁碼 ----------->
-    <div class="mb-5">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{disabled: currentPage === 0}">
-            <a class="page-link" href="#" @click.prevent="previousPage">上一頁</a>
-          </li>
-          <li class="page-item disabled">
-            <a class="page-link" href="#">{{ currentPage + 1 }} / {{ totalPage }}</a>
-          </li>
-          <li class="page-item"
-          :class="{disabled: currentPage + 1 === totalPage || totalPage === 0}">
-            <a class="page-link" href="#" @click.prevent="nextPage">下一頁</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
   </div>
 </template>
 
 <script>
 // https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL
 export default {
-  props: ['catData', 'selectData', 'totalPage', 'eachPageData', 'currentPage', 'showCat'],
-  data() {
-    return {
-      nowPage: 0,
-    };
-  },
-  mounted() {
-    this.nowPage = this.currentPage;
+  computed: {
+    showData() {
+      return this.$store.getters.showData;
+    },
   },
   methods: {
-    // catDetail(animalSubId) {
-    //   console.log(animalSubId);
-    //   this.$router.push(`/${animalSubId}`);
-    // },
-    catPhoto(photo) {
-      console.log(photo);
-      // this.$router.push(`/${photo}`);
-      window.location.href = photo;
-    },
-    // emit
-    previousPage() {
-      this.$emit('updateCurrentPage', this.nowPage -= 1);
-    },
-    nextPage() {
-      this.$emit('updateCurrentPage', this.nowPage += 1);
-    },
     sexDataTransform(sex) {
       if (sex === 'M') {
         return '公';

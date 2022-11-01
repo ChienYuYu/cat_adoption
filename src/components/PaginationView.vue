@@ -12,7 +12,7 @@
     </nav>
   </div> -->
   <!-- ------ 行動裝置 ----------->
-  <div class="mb-5">
+  <!-- <div class="mb-5">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
         <li class="page-item" :class="{disabled: currentPage === 0}">
@@ -26,32 +26,53 @@
         </li>
       </ul>
     </nav>
+  </div> -->
+  <!-- ---------------------------------------- -->
+  <div class="mb-5">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{disabled: pageIndex === 0}">
+          <a class="page-link" href="#"
+          @click.prevent="switchPage('previous')">上一頁</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="#">{{ currentPage }} / {{ totalPage }}</a>
+        </li>
+        <li class="page-item" :class="{disabled: pageIndex + 1 === totalPage}">
+          <a class="page-link" href="#" @click.prevent="switchPage('next')">下一頁</a>
+        </li>
+      </ul>
+    </nav>
   </div>
+   <!-- ---------------------------------------- -->
 </template>
 
 <script>
 export default {
   data() {
     return {
-      totalPage: 0,
-      currentPage: 0,
     };
   },
   mounted() {
-    // 從CatList.vue傳過來的
-    this.$emitter.on('pageData', (data) => {
-      this.totalPage = data;
-    });
+  },
+  computed: {
+    totalPage() {
+      this.$store.commit('countPage');
+      return this.$store.state.totalPage;
+    },
+    currentPage() {
+      return this.$store.state.pageIndex + 1;
+    },
+    pageIndex() {
+      return this.$store.state.pageIndex;
+    },
   },
   methods: {
-    previousPage() {
-      this.currentPage -= 1;
-      this.$emitter.emit('currentPageNum', this.currentPage);
+    switchPage(calc) {
+      this.$store.commit('switchPage', calc);
     },
-    nextPage() {
-      this.currentPage += 1;
-      this.$emitter.emit('currentPageNum', this.currentPage);
-    },
+  },
+  watch: {
   },
 
 };
