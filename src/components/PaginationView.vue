@@ -12,22 +12,6 @@
     </nav>
   </div> -->
   <!-- ------ 行動裝置 ----------->
-  <!-- <div class="mb-5">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item" :class="{disabled: currentPage === 0}">
-          <a class="page-link" href="#" @click.prevent="previousPage">上一頁</a>
-        </li>
-        <li class="page-item disabled">
-          <a class="page-link" href="#">{{ currentPage + 1 }} / {{ totalPage }}</a>
-        </li>
-        <li class="page-item" :class="{disabled: currentPage + 1 === totalPage}">
-          <a class="page-link" href="#" @click.prevent="nextPage">下一頁</a>
-        </li>
-      </ul>
-    </nav>
-  </div> -->
-  <!-- ---------------------------------------- -->
   <div class="mb-5">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
@@ -49,12 +33,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-    };
-  },
-  mounted() {
-  },
+
   computed: {
     totalPage() {
       this.$store.commit('countPage');
