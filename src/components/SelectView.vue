@@ -4,7 +4,7 @@
     <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example"
       v-model="myCity"
-      @change="transmissionData">
+      @change="filterCitySex">
         <option disabled>請選擇縣市</option>
         <option v-for="c in city" :key="c" :value="c">{{c}}</option>
       </select>
@@ -12,7 +12,7 @@
     <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example"
       v-model="sex"
-      @change="transmissionData">
+      @change="filterCitySex">
         <option disabled>請選擇性別</option>
         <option value="M">公</option>
         <option value="F">母</option>
@@ -43,16 +43,17 @@ export default {
       sex: '請選擇性別',
     };
   },
-  mounted() {},
+  mounted() {
+    this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
+  },
   methods: {
-    // 傳到CatList.vue
-    transmissionData() {
-      this.$emitter.emit('selectData', { city: this.myCity, sex: this.sex });
+    filterCitySex() {
+      this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
     },
     reset() {
       this.sex = '請選擇性別';
       this.myCity = '請選擇縣市';
-      this.$emitter.emit('selectData', {});
+      this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
     },
   },
 };
