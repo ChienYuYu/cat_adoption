@@ -16,13 +16,12 @@
   </div>
   <NavbarView />
   <BannerView />
-  <SelectView />
+  <SelectView id="filterArea" />
+  <CatList />
+  <PaginationView @goSelectAarea="goSelectAarea" />
 
-  <!-- <h2 class="text-center"
-    v-if="isLoading === true && filterCat.length === 0">查無資料
-  </h2> -->
-  <CatList/>
-  <PaginationView />
+  <a href="#" ref="goTopBtn" class="btn go-top-btn d-none" @click.prevent="goSelectAarea">▲</a>
+
   <FooterView />
  </div>
 </template>
@@ -49,10 +48,26 @@ export default {
   mounted() {
     this.$store.dispatch('getApi');
     AOS.init();
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 900) {
+        this.$refs.goTopBtn.classList.remove('d-none');
+      } else {
+        this.$refs.goTopBtn.classList.add('d-none');
+      }
+    });
   },
   computed: {
     isLoading() {
       return this.$store.state.isLoading;
+    },
+  },
+  methods: {
+    goSelectAarea() {
+      const Element = document.getElementById('filterArea');
+      Element.scrollIntoView({
+        behavior: 'smooth',
+      });
     },
   },
 };
@@ -77,4 +92,14 @@ export default {
   border: 3px solid #fff;
   margin: .25rem;
 }
+.go-top-btn{
+    text-decoration: none;
+    position: fixed;
+    bottom: 0;
+    z-index: 20;
+    right: 0;
+    margin: 0 .5rem .5rem 0 ;
+    background: #fa0;
+    color: #fff;
+  }
 </style>

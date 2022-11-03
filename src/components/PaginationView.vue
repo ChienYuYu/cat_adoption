@@ -17,13 +17,14 @@
       <ul class="pagination justify-content-center">
         <li class="page-item" :class="{disabled: pageIndex === 0}">
           <a class="page-link" href="#"
-          @click.prevent="switchPage('previous')">上一頁</a>
+          @click.prevent="switchPage('previous');goSelectAarea()">上一頁</a>
         </li>
         <li class="page-item disabled">
           <a class="page-link" href="#">{{ currentPage }} / {{ totalPage }}</a>
         </li>
         <li class="page-item" :class="{disabled: pageIndex + 1 === totalPage}">
-          <a class="page-link" href="#" @click.prevent="switchPage('next')">下一頁</a>
+          <a class="page-link" href="#"
+          @click.prevent="switchPage('next');goSelectAarea()">下一頁</a>
         </li>
       </ul>
     </nav>
@@ -49,6 +50,9 @@ export default {
   methods: {
     switchPage(calc) {
       this.$store.commit('switchPage', calc);
+    },
+    goSelectAarea() {
+      this.$emit('goSelectAarea');
     },
   },
   watch: {

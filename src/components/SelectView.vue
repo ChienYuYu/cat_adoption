@@ -26,10 +26,17 @@
       </select>
     </div> -->
   </div>
-  <div class="d-flex mt-3">
-    <button class="btn btn-outline-danger mx-auto"
-    @click="reset">清除篩選條件</button>
+  <div class="d-flex justify-content-center align-items-center mt-3">
+    <div class="mx-1">
+      <p class="text-secondary mb-0">
+        總共 <span class="big-text"> {{ totalPage }} </span> 頁
+        <span class="big-text"> {{ filterDataNum }} </span> 筆資料
+      </p>
+    </div>
+    <button class="btn reset-btn mx-1"
+    @click="reset">清除篩選</button>
   </div>
+  <p class="text-center mb-0 pt-3 text-secondary">目前第 {{ pageIndex }} 頁</p>
  </div>
 </template>
 
@@ -47,6 +54,17 @@ export default {
   mounted() {
     this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
   },
+  computed: {
+    totalPage() {
+      return this.$store.state.totalPage;
+    },
+    filterDataNum() {
+      return this.$store.getters.filterShow.length;
+    },
+    pageIndex() {
+      return this.$store.state.pageIndex + 1;
+    },
+  },
   methods: {
     filterCitySex() {
       this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
@@ -61,5 +79,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .big-text{
+    font-size: 2rem;
+    color: #f55;
+  }
+  .reset-btn{
+    border:1px solid #f55;
+    color: #f55;
+    transition: .2s;
+    &:hover{
+      background: #f55;
+      color: #fff;
+    }
+  }
 </style>

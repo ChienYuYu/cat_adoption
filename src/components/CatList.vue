@@ -6,7 +6,6 @@
         <div class="card mb-3" data-aos="fade-up" data-aos-once="true">
           <div class="row g-0">
             <div class="col-md-4">
-              <!-- <img :src="c.album_file" class="img-fluid rounded-start" alt="cat pic"> -->
               <a class="text-decoration-none" :href="c.album_file" target="_blank">
                 <img :src="c.album_file" class="img-fluid rounded-start" alt="cat pic">
               </a>

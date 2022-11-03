@@ -2,7 +2,7 @@
   <div class="mb-5">
     <div class="banner">
       <div class="title-wrap">
-        <h1 class="title">給朕一個家</h1>
+        <h2 class="title">給朕一個家</h2>
         <i class="bi bi-caret-down-fill"></i>
       </div>
     </div>
@@ -17,10 +17,10 @@ export default {};
 .banner {
   position: relative;
   background-image: url(../assets/banner01.jpg);
-  width: 100%;
-  // height: calc(100vh - 64px);
+  // width: 100%;
   height: 100vh;
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center 30%;
   background-attachment: fixed;
   .title-wrap {
