@@ -4,7 +4,7 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     catData: [],
-    isLoading: false,
+    isLoading: true,
     totalPage: 0,
     eachPageData: [],
     pageIndex: 0,
@@ -32,7 +32,7 @@ export default createStore({
   mutations: {
     getCat(state, data) {
       state.catData = data.filter((item) => item.animal_kind === '貓');
-      state.isLoading = true;
+      state.isLoading = false;
     },
     filterCitySex(state, data) {
       state.cityAndSex = data;

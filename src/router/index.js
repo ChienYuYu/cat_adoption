@@ -6,13 +6,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    children: [
-      // {
-      //   path: 'cat/:id',
-      //   name: 'catDetail',
-      //   component: () => import('../views/CatDetail.vue'),
-      // },
-    ],
+    meta: { title: '給朕一個家 (=ↀωↀ=)' },
   },
   {
     path: '/:id',
@@ -24,6 +18,10 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+});
+
+router.beforeEach((to) => {
+  document.title = to.meta.title;
 });
 
 export default router;

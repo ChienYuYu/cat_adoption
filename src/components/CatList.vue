@@ -3,7 +3,7 @@
     <div class="row mb-5 g-3">
 
       <div class="col-12 col-lg-6" v-for="c in showData" :key="c.animal_id">
-        <div class="card mb-3">
+        <div class="card mb-3" data-aos="fade-up" data-aos-once="true">
           <div class="row g-0">
             <div class="col-md-4">
               <!-- <img :src="c.album_file" class="img-fluid rounded-start" alt="cat pic"> -->

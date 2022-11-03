@@ -1,6 +1,7 @@
 <template>
- <div class="container p-lg-2 mb-5">
-  <div class="row justify-content-center">
+ <div class="container pb-5 mb-5 border-bottom">
+  <div class="row justify-content-center py-5"
+  data-aos="fade-up"  data-aos-duration="1500" data-aos-once="true">
     <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example"
       v-model="myCity"
