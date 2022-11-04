@@ -1,24 +1,10 @@
-# cat_adoption
+# meowmeow 流浪貓認養資訊網
 
-## Project setup
-```
-npm install
-```
+可根據縣市、性別進行篩選
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+資料串接行政院農委會動物認領養API，含收容所名稱、地址、電話、貓咪照片、性別... 
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+![image](demo/CPT2211041444-720x353-01.gif)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![image](demo/CPT2211041444-720x353-02.gif)
