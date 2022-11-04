@@ -8,11 +8,6 @@ const routes = [
     component: HomeView,
     meta: { title: '給朕一個家 (=ↀωↀ=)' },
   },
-  // {
-  //   path: '/:id',
-  //   name: 'catDetail',
-  //   component: () => import('../views/CatDetail.vue'),
-  // },
 ];
 
 const router = createRouter({

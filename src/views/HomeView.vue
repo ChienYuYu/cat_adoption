@@ -20,7 +20,9 @@
   <CatList />
   <PaginationView @goSelectAarea="goSelectAarea" />
 
-  <a href="#" ref="goTopBtn" class="btn go-top-btn d-none" @click.prevent="goSelectAarea">▲</a>
+  <a href="#" ref="goTopBtn"
+  class="btn go-top-btn d-none"
+  @click.prevent="goSelectAarea">▲</a>
 
   <FooterView />
  </div>

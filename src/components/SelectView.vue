@@ -26,7 +26,9 @@
       </select>
     </div> -->
   </div>
-  <div class="d-flex justify-content-center align-items-center mt-3">
+  <div class="d-flex justify-content-center align-items-center mt-3"
+  data-aos="fade-left"  data-aos-duration="1500"
+  data-aos-once="true" data-aos-delay="50">
     <div class="mx-1">
       <p class="text-secondary mb-0">
         總共 <span class="big-text"> {{ totalPage }} </span> 頁
@@ -34,9 +36,13 @@
       </p>
     </div>
     <button class="btn reset-btn mx-1"
-    @click="reset">清除篩選</button>
+    @click="reset">重設篩選</button>
   </div>
-  <p class="text-center mb-0 pt-3 text-secondary">目前第 {{ pageIndex }} 頁</p>
+  <p class="text-center mb-0 pt-3 text-secondary"
+  data-aos="fade-right"  data-aos-duration="1500"
+  data-aos-once="true" data-aos-delay="300">
+    目前第 {{ pageIndex }} 頁
+  </p>
  </div>
 </template>
 

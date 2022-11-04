@@ -46,13 +46,7 @@ export default createStore({
         state.eachPageData.push(tempArr);
       }
     },
-    // countPage(state) {
-    //   state.totalPage = Math.ceil(state.catData.length / 30);
-    //   for (let i = 0; i < state.totalPage; i += 1) {
-    //     const tempArr = state.catData.slice(i * 30, i * 30 + 30);
-    //     state.eachPageData.push(tempArr);
-    //   }
-    // },
+
     switchPage(state, calc) {
       if (calc === 'previous') { state.pageIndex -= 1; }
       if (calc === 'next') { state.pageIndex += 1; }
