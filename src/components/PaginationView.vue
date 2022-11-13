@@ -1,17 +1,4 @@
 <template>
-  <!-- ------ 桌機 ----------->
-  <!-- <div class="mb-5">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link" href="#">〈</a></li>
-        <li class="page-item" v-for="(p,index) in totalPage" :key="index">
-          <a class="page-link" href="#">{{ p }}</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">〉</a></li>
-      </ul>
-    </nav>
-  </div> -->
-  <!-- ------ 行動裝置 ----------->
   <div class="mb-5">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
@@ -29,35 +16,35 @@
       </ul>
     </nav>
   </div>
-   <!-- ---------------------------------------- -->
+  <!-- ---------------------------------------- -->
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
+  setup(_, { emit }) {
+    const store = useStore();
 
-  computed: {
-    totalPage() {
-      this.$store.commit('countPage');
-      return this.$store.state.totalPage;
-    },
-    currentPage() {
-      return this.$store.state.pageIndex + 1;
-    },
-    pageIndex() {
-      return this.$store.state.pageIndex;
-    },
-  },
-  methods: {
-    switchPage(calc) {
-      this.$store.commit('switchPage', calc);
-    },
-    goSelectAarea() {
-      this.$emit('goSelectAarea');
-    },
-  },
-  watch: {
-  },
+    const totalPage = computed(() => {
+      store.commit('countPage');
+      return store.state.totalPage;
+    });
+    const currentPage = computed(() => store.state.pageIndex + 1);
+    const pageIndex = computed(() => store.state.pageIndex);
 
+    function switchPage(calc) {
+      store.commit('switchPage', calc);
+    }
+    function goSelectAarea() {
+      emit('goSelectAarea');
+    }
+
+    return {
+      totalPage, currentPage, pageIndex, switchPage, goSelectAarea,
+    };
+  },
 };
 </script>
 

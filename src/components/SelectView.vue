@@ -20,11 +20,6 @@
         <option value="N">不明</option>
       </select>
     </div>
-    <!-- <div class="col-md-3 m-1">
-      <select class="form-select" aria-label="Default select example" v-model="sex">
-        <option disabled>請選擇花色</option>
-      </select>
-    </div> -->
   </div>
   <div class="d-flex justify-content-center align-items-center mt-3"
   data-aos="fade-left"  data-aos-duration="1500"
@@ -47,39 +42,36 @@
 </template>
 
 <script>
-// https://marsz.tw/blog/articles/411
-// 縣市資料: https://demeter.5fpro.com/tw/zipcode/cities.json
+import { ref, onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
-  data() {
+  setup() {
+    const city = ref(['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣']);
+    const myCity = ref('請選擇縣市');
+    const sex = ref('請選擇性別');
+    const store = useStore();
+
+    onMounted(() => {
+      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+    });
+
+    const totalPage = computed(() => store.state.totalPage);
+    const filterDataNum = computed(() => store.getters.filterShow.length);
+    const pageIndex = computed(() => store.state.pageIndex + 1);
+
+    function filterCitySex() {
+      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+    }
+    function reset() {
+      sex.value = '請選擇性別';
+      myCity.value = '請選擇縣市';
+      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+    }
+
     return {
-      city: ['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣'],
-      myCity: '請選擇縣市',
-      sex: '請選擇性別',
+      city, myCity, sex, totalPage, filterDataNum, pageIndex, filterCitySex, reset,
     };
-  },
-  mounted() {
-    this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
-  },
-  computed: {
-    totalPage() {
-      return this.$store.state.totalPage;
-    },
-    filterDataNum() {
-      return this.$store.getters.filterShow.length;
-    },
-    pageIndex() {
-      return this.$store.state.pageIndex + 1;
-    },
-  },
-  methods: {
-    filterCitySex() {
-      this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
-    },
-    reset() {
-      this.sex = '請選擇性別';
-      this.myCity = '請選擇縣市';
-      this.$store.commit('filterCitySex', { city: this.myCity, sex: this.sex });
-    },
   },
 };
 </script>
