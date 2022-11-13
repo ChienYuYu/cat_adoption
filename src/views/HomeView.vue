@@ -27,8 +27,11 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from 'vue';
+import {
+  onMounted, ref, computed, watch,
+} from 'vue';
 import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 import AOS from 'aos';
 import NavbarView from '../components/NavbarView.vue';
 import BannerView from '../components/BannerView.vue';
@@ -49,6 +52,8 @@ export default {
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
     const showBtn = ref(false);
 
     onMounted(() => {
@@ -66,6 +71,23 @@ export default {
       });
     });
 
+    function initUrl() {
+      if (Object.keys(route.query).length === 0) {
+        router.push({
+          query: {
+            city: '請選擇縣市',
+            sex: '請選擇性別',
+            page: 1,
+          },
+        });
+        store.commit('initUrl');
+      } else {
+        const data = route.query;
+        store.commit('updateCitySexPage', data);
+      }
+    }
+    initUrl();
+
     function goSelectAarea() {
       const Element = document.getElementById('filterArea');
       Element.scrollIntoView({
@@ -74,7 +96,29 @@ export default {
     }
 
     const isLoading = computed(() => store.state.isLoading);
-    return { showBtn, isLoading, goSelectAarea };
+    const updateUrl = computed(() => store.state.citySexPage);
+    // ===================================
+    // 2個watch好像有問題
+    // watch(updateUrl, () => {
+    //   router.push({
+    //     query: store.state.citySexPage,
+    //   });
+    // }, { deep: true }); // 深度監聽
+    // ===================================
+    // watch(route, () => {
+    //   router.push({
+    //     query: store.state.citySexPage,
+    //   });
+    // }, { deep: true }); // 深度監聽
+    // ===================================
+    watch(route, () => {
+      store.commit('updateCitySexPage', route.query); // 回上一頁才能有更新資料
+    });
+    // ===================================
+
+    return {
+      showBtn, goSelectAarea, isLoading, updateUrl,
+    };
   },
 };
 </script>

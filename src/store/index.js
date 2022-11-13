@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
+// import { useRouter } from 'vue-router';
 
 export default createStore({
   state: {
@@ -9,27 +10,41 @@ export default createStore({
     eachPageData: [],
     pageIndex: 0,
     cityAndSex: {},
+    // ----------我是分隔線------------
+    citySexPage: {},
 
   },
   getters: {
     filterShow(state) {
-      if (state.cityAndSex.city !== '請選擇縣市' && state.cityAndSex.sex === '請選擇性別') {
-        return state.catData.filter((item) => item.shelter_address.match(state.cityAndSex.city));
+      if (state.citySexPage.city !== '請選擇縣市' && state.citySexPage.sex === '請選擇性別') {
+        return state.catData.filter((item) => item.shelter_address.match(state.citySexPage.city));
       }
-      if (state.cityAndSex.city === '請選擇縣市' && state.cityAndSex.sex !== '請選擇性別') {
-        return state.catData.filter((item) => item.animal_sex.match(state.cityAndSex.sex));
+      if (state.citySexPage.city === '請選擇縣市' && state.citySexPage.sex !== '請選擇性別') {
+        return state.catData.filter((item) => item.animal_sex.match(state.citySexPage.sex));
       }
-      if (state.cityAndSex.city !== '請選擇縣市' && state.cityAndSex.sex !== '請選擇性別') {
-        return state.catData.filter((item) => item.shelter_address.match(state.cityAndSex.city)
-        && item.animal_sex.match(state.cityAndSex.sex));
+      if (state.citySexPage.city !== '請選擇縣市' && state.citySexPage.sex !== '請選擇性別') {
+        return state.catData.filter((item) => item.shelter_address.match(state.citySexPage.city)
+        && item.animal_sex.match(state.citySexPage.sex));
       }
       return state.catData;
     },
+
     showData(state) {
-      return state.eachPageData[state.pageIndex];
+      return state.eachPageData[state.citySexPage.page - 1];
+    },
+
+    updateUrl(state) {
+      return state.citySexPage;
     },
   },
+  // ********************************************************
   mutations: {
+    initUrl(state) {
+      state.citySexPage = { city: '請選擇縣市', sex: '請選擇性別', page: 1 };
+    },
+    updateCitySexPage(state, data) {
+      state.citySexPage = data;
+    },
     getCat(state, data) {
       state.catData = data.filter((item) => item.animal_kind === '貓');
       state.isLoading = false;
@@ -46,12 +61,19 @@ export default createStore({
         state.eachPageData.push(tempArr);
       }
     },
-
     switchPage(state, calc) {
-      if (calc === 'previous') { state.pageIndex -= 1; }
-      if (calc === 'next') { state.pageIndex += 1; }
+      if (calc === 'previous') {
+        state.citySexPage.page = Number(state.citySexPage.page) - 1;
+        // state.citySexPage.page -= 1;
+      }
+      if (calc === 'next') {
+        state.citySexPage.page = Number(state.citySexPage.page) + 1;
+        // state.citySexPage.page += 1;
+      }
+      //
     },
   },
+  // ********************************************************
   actions: {
     getApi(context) {
       const apiUrl = 'https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL';

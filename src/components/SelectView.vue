@@ -36,41 +36,73 @@
   <p class="text-center mb-0 pt-3 text-secondary"
   data-aos="fade-right"  data-aos-duration="1500"
   data-aos-once="true" data-aos-delay="300">
-    目前第 {{ pageIndex }} 頁
+    目前第 {{ currentPage }} 頁
   </p>
  </div>
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 
 export default {
   setup() {
-    const city = ref(['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣']);
-    const myCity = ref('請選擇縣市');
-    const sex = ref('請選擇性別');
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
 
-    onMounted(() => {
-      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
-    });
+    const city = ref(['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣']);
+    const myCity = ref('');
+    const sex = ref('');
+
+    const cityAndSex = computed(() => store.state.citySexPage);
+    myCity.value = cityAndSex.value.city;
+    sex.value = cityAndSex.value.sex;
 
     const totalPage = computed(() => store.state.totalPage);
     const filterDataNum = computed(() => store.getters.filterShow.length);
-    const pageIndex = computed(() => store.state.pageIndex + 1);
+    const currentPage = computed(() => store.state.citySexPage.page);
 
     function filterCitySex() {
-      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+      store.commit('updateCitySexPage', {
+        city: myCity.value,
+        sex: sex.value,
+        page: 1,
+      });
     }
     function reset() {
       sex.value = '請選擇性別';
       myCity.value = '請選擇縣市';
-      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+      const data = { city: myCity.value, sex: sex.value, page: 1 };
+      store.commit('updateCitySexPage', data);
     }
 
+    watch([myCity, sex], () => {
+      router.push({
+        query: {
+          city: myCity.value,
+          sex: sex.value,
+          page: 1,
+        },
+      });
+    });
+
+    watch(route, () => {
+      myCity.value = route.query.city;
+      sex.value = route.query.sex;
+    });
+
     return {
-      city, myCity, sex, totalPage, filterDataNum, pageIndex, filterCitySex, reset,
+      city,
+      myCity,
+      sex,
+      cityAndSex,
+      totalPage,
+      filterDataNum,
+      currentPage,
+      filterCitySex,
+      reset,
     };
   },
 };
