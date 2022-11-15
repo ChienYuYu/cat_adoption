@@ -47,22 +47,18 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
-// https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL
 export default {
-  data() {
-    return {
-      lightbox: false,
-      lightboxImg: '',
-    };
-  },
-  computed: {
-    showData() {
-      return this.$store.getters.showData;
-    },
-  },
-  methods: {
-    sexDataTransform(sex) {
+  setup() {
+    const store = useStore();
+    const lightbox = ref(false);
+    const lightboxImg = ref('');
+
+    const showData = computed(() => store.getters.showData);
+
+    function sexDataTransform(sex) {
       if (sex === 'M') {
         return '公';
       }
@@ -70,14 +66,21 @@ export default {
         return '母';
       }
       return '不明';
-    },
-    openAndCloseLightBox(tf, i) {
-      this.lightbox = tf;
+    }
+
+    function openAndCloseLightBox(tf, i) {
+      lightbox.value = tf;
       if (tf === true) {
-        this.lightboxImg = this.showData[i].album_file;
+        // lightboxImg.value = showData[i].album_file;
+        lightboxImg.value = showData.value[i].album_file; // ???
       }
-    },
+    }
+
+    return {
+      lightbox, lightboxImg, showData, sexDataTransform, openAndCloseLightBox,
+    };
   },
+
 };
 </script>
 

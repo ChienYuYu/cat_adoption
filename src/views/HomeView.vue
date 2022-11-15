@@ -1,34 +1,34 @@
 <template>
- <div class="wrapper">
-  <div class="loading" v-if="isLoading">
-    <div>
-      <div class="spinner-grow text-danger" role="status">
-        <span class="visually-hidden">Loading...</span>
+  <div class="wrapper">
+    <div class="loading" v-if="isLoading">
+      <div>
+        <div class="spinner-grow text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-dark text-center">資料載入中...</p>
       </div>
-      <div class="spinner-grow text-warning" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <div class="spinner-grow text-info" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="text-dark text-center">資料載入中...</p>
     </div>
+    <NavbarView />
+    <BannerView />
+    <SelectView id="filterArea" />
+    <CatList />
+    <PaginationView @goSelectAarea="goSelectAarea" />
+
+    <a href="#" class="btn go-top-btn" @click.prevent="goSelectAarea" v-show="showBtn">▲</a>
+
+    <FooterView />
   </div>
-  <NavbarView />
-  <BannerView />
-  <SelectView id="filterArea" />
-  <CatList />
-  <PaginationView @goSelectAarea="goSelectAarea" />
-
-  <a href="#" ref="goTopBtn"
-  class="btn go-top-btn d-none"
-  @click.prevent="goSelectAarea">▲</a>
-
-  <FooterView />
- </div>
 </template>
 
 <script>
+import { onMounted, ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import AOS from 'aos';
 import NavbarView from '../components/NavbarView.vue';
 import BannerView from '../components/BannerView.vue';
@@ -47,36 +47,40 @@ export default {
     PaginationView,
     FooterView,
   },
-  mounted() {
-    this.$store.dispatch('getApi');
-    AOS.init();
+  setup() {
+    const store = useStore();
+    const showBtn = ref(false);
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 900) {
-        this.$refs.goTopBtn.classList.remove('d-none');
-      } else {
-        this.$refs.goTopBtn.classList.add('d-none');
-      }
+    onMounted(() => {
+      store.dispatch('getApi');
+      AOS.init();
     });
-  },
-  computed: {
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
-  },
-  methods: {
-    goSelectAarea() {
+
+    onMounted(() => {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 900) {
+          showBtn.value = true;
+        } else {
+          showBtn.value = false;
+        }
+      });
+    });
+
+    function goSelectAarea() {
       const Element = document.getElementById('filterArea');
       Element.scrollIntoView({
         behavior: 'smooth',
       });
-    },
+    }
+
+    const isLoading = computed(() => store.state.isLoading);
+    return { showBtn, isLoading, goSelectAarea };
   },
 };
 </script>
 
 <style scoped>
-.loading{
+.loading {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -90,18 +94,18 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.spinner-grow{
+.spinner-grow {
   border: 3px solid #fff;
-  margin: .25rem;
+  margin: 0.25rem;
 }
-.go-top-btn{
-    text-decoration: none;
-    position: fixed;
-    bottom: 0;
-    z-index: 20;
-    right: 0;
-    margin: 0 .5rem .5rem 0 ;
-    background: #fa0;
-    color: #fff;
-  }
+.go-top-btn {
+  text-decoration: none;
+  position: fixed;
+  bottom: 0;
+  z-index: 20;
+  right: 0;
+  margin: 0 0.5rem 0.5rem 0;
+  background: #fa0;
+  color: #fff;
+}
 </style>
