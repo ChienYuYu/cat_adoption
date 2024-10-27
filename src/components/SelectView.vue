@@ -12,8 +12,7 @@
     </div>
     <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example"
-      v-model="sex"
-      @change="filterCitySex">
+        v-model="sex" @change="filterCitySex">
         <option disabled>請選擇性別</option>
         <option value="M">公</option>
         <option value="F">母</option>

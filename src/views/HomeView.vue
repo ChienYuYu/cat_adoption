@@ -1,19 +1,5 @@
 <template>
   <div class="wrapper">
-    <div class="loading" v-if="isLoading">
-      <div>
-        <div class="spinner-grow text-danger" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow text-warning" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow text-info" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <p class="text-dark text-center">資料載入中...</p>
-      </div>
-    </div>
     <NavbarView />
     <BannerView />
     <SelectView id="filterArea" />
@@ -50,6 +36,7 @@ export default {
   setup() {
     const store = useStore();
     const showBtn = ref(false);
+    store.state.isLoading = true; // 20241027
 
     onMounted(() => {
       store.dispatch('getApi');
@@ -80,24 +67,7 @@ export default {
 </script>
 
 <style scoped>
-.loading {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 99;
-  transform: translate(-50%, -50%);
-  background: #ffffff90;
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.spinner-grow {
-  border: 3px solid #fff;
-  margin: 0.25rem;
-}
+
 .go-top-btn {
   text-decoration: none;
   position: fixed;
