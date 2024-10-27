@@ -2,8 +2,7 @@
   <div class="cat-list container mb-5">
     <div class="row mb-5 g-3">
       <div class="col-12 col-lg-6" v-for="(c) in showData" :key="c.animal_id">
-        <div class="card mb-3" data-aos="fade-up" data-aos-once="true"
-          @click="goCatInfoPage(c)" @keydown="goCatInfoPage()">
+        <div class="card mb-3" data-aos="fade-up" data-aos-once="true">
           <div class="row g-0">
             <div class="col-md-4">
             <img :src="c.album_file" class="img-fluid rounded-start" alt="cat pic">
@@ -27,6 +26,9 @@
                 <p class="card-text mb-0 p-1">
                   <small class="text-muted">更新日期：{{ c.cDate }}</small>
                 </p>
+                <button type="button" class="go_info_btn" @click="goCatInfoPage(c)">
+                  詳細資料
+                </button>
               </div>
             </div>
           </div>
@@ -77,10 +79,6 @@ export default {
   height: 280px;
   overflow: hidden;
   // background: #000;
-  &:hover{
-    background:#eeeeee60;
-    cursor: pointer;
-  }
 
   @media (max-width: 830px) {
     height: auto;
@@ -101,6 +99,26 @@ export default {
     padding: .25rem .25rem;
     font-size: 14px;
     text-align: center;
+  }
+
+  button.go_info_btn{
+    border: none;
+    padding: .2rem 1rem;
+    border-radius: 5px;
+    background: rgb(250, 240, 128);
+    color: #333;
+    position: absolute;
+    right: 3%;
+    bottom: 5%;
+
+    &:hover{
+      background: rgb(209, 209, 203);
+      color: #fff;
+    }
+
+    @media (max-width: 575px) {
+      bottom: 3%;
+    }
   }
 }
 
