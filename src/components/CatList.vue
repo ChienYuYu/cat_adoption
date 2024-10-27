@@ -26,9 +26,12 @@
                 <p class="card-text mb-0 p-1">
                   <small class="text-muted">更新日期：{{ c.cDate }}</small>
                 </p>
-                <button type="button" class="go_info_btn" @click="goCatInfoPage(c)">
+                <!-- <button type="button" class="go_info_btn" @click="goCatInfoPage(c)">
                   詳細資料
-                </button>
+                </button> -->
+                <a href="#" class="go_info_btn" @click.prevent="goCatInfoPage(c)">
+                  詳細資料
+                </a>
               </div>
             </div>
           </div>
@@ -43,12 +46,12 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
-    const router = useRouter();
+    // const router = useRouter();
     const showData = computed(() => store.getters.showData);
 
     function sexDataTransform(sex) {
@@ -61,9 +64,15 @@ export default {
       return '不明';
     }
 
-    function goCatInfoPage(cat) {
+    // function goCatInfoPage(cat) {
+    //   console.log('cat obj==>', cat);
+    //   router.push(`/cat_info/${cat.animal_id}`);
+    // }
+
+    function goCatInfoPage(cat) { // 開新分頁
       console.log('cat obj==>', cat);
-      router.push(`/cat_info/${cat.animal_id}`);
+      const url = `${window.location.href}cat_info/${cat.animal_id}`;
+      window.open(url, '_blank');
     }
 
     return {
@@ -101,7 +110,8 @@ export default {
     text-align: center;
   }
 
-  button.go_info_btn{
+  a.go_info_btn{
+    text-decoration: none;
     border: none;
     padding: .2rem 1rem;
     border-radius: 5px;
