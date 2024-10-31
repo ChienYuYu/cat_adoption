@@ -13,6 +13,12 @@
                   {{ c.animal_colour }}貓咪 性別：{{ sexDataTransform(c.animal_sex) }}
                 </h5>
                 <p class="card-text mb-0 p-1">
+                  <small class="text-muted">資料建立日期：{{ c.animal_createtime }}</small>
+                </p>
+                <p class="card-text mb-0 p-1">
+                  <small class="text-muted">更新日期：{{ c.cDate }}</small>
+                </p>
+                <p class="card-text mb-0 p-1">
                   <small class="text-muted">流水編號：{{ c.animal_id }}</small>
                 </p>
                 <p class="card-text mb-0 p-1">
@@ -22,9 +28,6 @@
                 <p class="card-text mb-0 p-1">{{ c.shelter_address }}</p>
                 <p class="card-text mb-0 p-1">
                   <small class="text-muted">電話：{{ c.shelter_tel }}</small>
-                </p>
-                <p class="card-text mb-0 p-1">
-                  <small class="text-muted">更新日期：{{ c.cDate }}</small>
                 </p>
                 <!-- <button type="button" class="go_info_btn" @click="goCatInfoPage(c)">
                   詳細資料
@@ -95,7 +98,8 @@ export default {
   }
 
   img:before {
-    content: '喵喵照片無法載入，可能是收容所無提供照片';
+    // content: '喵喵照片無法載入，可能是收容所無提供照片';
+    content: '照片無法載入，可能是網速影響或照片連結已掛掉';
     display: block;
     background: #f66;
     color: #fff;

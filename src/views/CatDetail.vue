@@ -18,14 +18,18 @@ window.location.href<template>
       <img class="cat_pic" :src="cat.album_file" alt=""
         @click="showPicHandler()" @keydown="showPicHandler()">
       <div class="content">
+        <p><span class="title">資料建立日期：</span>{{ cat.animal_createtime }}</p>
+        <p><span class="title">更新日期：</span>{{ cat.cDate }}</p>
+        <p><span class="title">尋獲地：</span>{{ cat.animal_foundplace }}</p>
         <p><span class="title">流水編號：</span>{{ cat.animal_id }}</p>
         <p><span class="title">收容編號：</span>{{ cat.animal_subid }}</p>
-        <p><span class="title">更新日期：</span>{{ cat.cDate }}</p>
         <p><span class="title">開放認養時間(起)：</span>{{ cat.animal_opendate }}</p>
         <p><span class="title">開放認養時間(迄)：</span>{{ cat.animal_closeddate }}</p>
+        <!-- //animal_foundplace -->
         <p><span class="title">毛色：</span>{{ cat.animal_colour }}</p>
         <p><span class="title">性別：</span>{{ cat.animal_sex }}</p>
         <p><span class="title">年齡分類：</span>{{ cat.animal_age }}</p>
+        <!-- <p><span class="title">貓咪實際所在地：</span>{{ cat.animal_place }}</p> -->
         <p><span class="title">收容所名稱：</span>{{ cat.shelter_name }}</p>
         <p><span class="title">收容所地址：</span>{{ cat.shelter_address }}</p>
         <p><span class="title">收容所電話：</span>{{ cat.shelter_tel }}</p>

@@ -58,8 +58,13 @@ export default createStore({
     },
     searchCatHandler(context, filterObj) {
       const url = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
-      const { city, sex, color } = filterObj;
-      const apiUrl = `${url}&animal_kind=貓&shelter_address=${city}&animal_sex=${sex}&animal_colour=${color}`;
+      const {
+        city,
+        sex,
+        color,
+        year,
+      } = filterObj;
+      const apiUrl = `${url}&animal_kind=貓&shelter_address=${city}&animal_sex=${sex}&animal_colour=${color}&animal_createtime=${year}/`;
       axios.get(apiUrl)
         .then((res) => {
           context.commit('getCat', res.data);
