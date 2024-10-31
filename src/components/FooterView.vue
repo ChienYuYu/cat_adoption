@@ -3,5 +3,6 @@
     <p class="text-light text-center mb-0">
       © 2022 by Chen Chien Yu
     </p>
+    <p class="text-center mb-0" style="font-size: 12px; color: #aaa;">v3.0.2</p>
   </div>
 </template>

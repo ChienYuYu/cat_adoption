@@ -54,8 +54,13 @@ export default createStore({
   },
   actions: {
     getApi(context) {
+<<<<<<< HEAD
       console.log('10311031^^^^^^^^^^^^');
       const apiUrl = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
+=======
+      const url = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
+      const apiUrl = `${url}&animal_kind=貓`;
+>>>>>>> a6a9991270377c4b2238de36eb19ccb35af8725c
       axios.get(apiUrl)
         .then((res) => {
           context.commit('getCat', res.data);
