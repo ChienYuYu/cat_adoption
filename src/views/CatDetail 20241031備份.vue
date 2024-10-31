@@ -68,12 +68,11 @@ export default {
 
     async function getCatData() {
       store.state.isLoading = true;
-      const url = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
-      const apiUrl = `${url}&animal_id=${catId}`;
+      const apiUrl = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
       try {
         const res = await axios.get(apiUrl);
-        cat.value = await res.data[0];
-        console.log('cat value', cat.value);
+        const cid = Number(catId);
+        cat.value = await res.data.filter((item) => item.animal_id === cid)[0];
         store.state.isLoading = false;
       } catch (err) {
         console.log(err);
