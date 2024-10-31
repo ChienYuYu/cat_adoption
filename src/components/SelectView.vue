@@ -4,19 +4,28 @@
   data-aos="fade-up"  data-aos-duration="1500" data-aos-once="true">
     <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example"
-      v-model="myCity"
-      @change="filterCitySex">
-        <option disabled>請選擇縣市</option>
+      v-model="filterObj.city"
+      @change="searchHandler()">
+        <option  :value="''" disabled>請選擇縣市</option>
         <option v-for="c in city" :key="c" :value="c">{{c}}</option>
       </select>
     </div>
     <div class="col-md-3 m-1">
       <select class="form-select" aria-label="Default select example"
-        v-model="sex" @change="filterCitySex">
-        <option disabled>請選擇性別</option>
+        v-model="filterObj.sex" @change="searchHandler()">
+        <option :value="''" disabled>請選擇性別</option>
         <option value="M">公</option>
         <option value="F">母</option>
         <option value="N">不明</option>
+      </select>
+    </div>
+    <div class="col-md-3 m-1">
+      <select class="form-select" aria-label="Default select example"
+        v-model="filterObj.color" @change="searchHandler()">
+        <option :value="''" disabled>請選擇花色</option>
+        <option  v-for="color in colorArr" :key="color" :value="color">
+          {{ color }}
+        </option>
       </select>
     </div>
   </div>
@@ -47,29 +56,43 @@ import { useStore } from 'vuex';
 export default {
   setup() {
     const city = ref(['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣']);
-    const myCity = ref('請選擇縣市');
-    const sex = ref('請選擇性別');
+    const colorArr = ['三花', '花色', '虎斑', '灰', '黑', '橘', '白', '黃'];
     const store = useStore();
-
-    onMounted(() => {
-      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+    const filterObj = ref({
+      city: '',
+      sex: '',
+      color: '',
     });
 
+    onMounted(() => {});
+
     const totalPage = computed(() => store.state.totalPage);
-    const filterDataNum = computed(() => store.getters.filterShow.length);
+    // const filterDataNum = computed(() => store.getters.filterShow.length);
+    const filterDataNum = computed(() => store.state.catData.length);
     const pageIndex = computed(() => store.state.pageIndex + 1);
 
-    function filterCitySex() {
-      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+    function searchHandler() {
+      store.state.isLoading = true;
+      store.dispatch('searchCatHandler', filterObj.value);
     }
+
     function reset() {
-      sex.value = '請選擇性別';
-      myCity.value = '請選擇縣市';
-      store.commit('filterCitySex', { city: myCity.value, sex: sex.value });
+      store.state.isLoading = true;
+      filterObj.value.city = '';
+      filterObj.value.sex = '';
+      filterObj.value.color = '';
+      store.dispatch('getApi');
     }
 
     return {
-      city, myCity, sex, totalPage, filterDataNum, pageIndex, filterCitySex, reset,
+      city,
+      totalPage,
+      filterDataNum,
+      pageIndex,
+      reset,
+      colorArr,
+      filterObj,
+      searchHandler,
     };
   },
 };

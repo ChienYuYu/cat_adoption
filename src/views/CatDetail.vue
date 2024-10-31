@@ -64,7 +64,6 @@ export default {
     const isLoading = computed(() => store.state.isLoading);
     const cat = ref([]);
     const catId = window.location.href.split('/cat_info/')[1];
-    console.log('catId', catId);
 
     async function getCatData() {
       store.state.isLoading = true;
@@ -73,7 +72,6 @@ export default {
       try {
         const res = await axios.get(apiUrl);
         cat.value = await res.data[0];
-        console.log('cat value', cat.value);
         store.state.isLoading = false;
       } catch (err) {
         console.log(err);

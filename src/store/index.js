@@ -9,40 +9,31 @@ export default createStore({
     eachPageData: [],
     pageIndex: 0,
     cityAndSex: {},
+    totalCat: 0,
 
   },
   getters: {
-    filterShow(state) {
-      if (state.cityAndSex.city !== '請選擇縣市' && state.cityAndSex.sex === '請選擇性別') {
-        return state.catData.filter((item) => item.shelter_address.match(state.cityAndSex.city));
-      }
-      if (state.cityAndSex.city === '請選擇縣市' && state.cityAndSex.sex !== '請選擇性別') {
-        return state.catData.filter((item) => item.animal_sex.match(state.cityAndSex.sex));
-      }
-      if (state.cityAndSex.city !== '請選擇縣市' && state.cityAndSex.sex !== '請選擇性別') {
-        return state.catData.filter((item) => item.shelter_address.match(state.cityAndSex.city)
-        && item.animal_sex.match(state.cityAndSex.sex));
-      }
-      return state.catData;
-    },
     showData(state) {
       return state.eachPageData[state.pageIndex];
     },
   },
   mutations: {
     getCat(state, data) {
-      state.catData = data.filter((item) => item.animal_kind === '貓');
+      state.pageIndex = 0;
+      state.catData = data; // cat arr
       state.isLoading = false;
     },
-    filterCitySex(state, data) {
-      state.cityAndSex = data;
-      state.pageIndex = 0;
+    getTotalNum(state, data) {
+      state.totalCat = data.length;
+    },
+    setLoading(state, tf) {
+      state.isLoading = tf;
     },
     countPage(state) {
       state.eachPageData = []; // 先清空 不然會累積越多
-      state.totalPage = Math.ceil(this.getters.filterShow.length / 30);
+      state.totalPage = Math.ceil(state.catData.length / 30);
       for (let i = 0; i < state.totalPage; i += 1) {
-        const tempArr = this.getters.filterShow.slice(i * 30, i * 30 + 30);
+        const tempArr = state.catData.slice(i * 30, i * 30 + 30);
         state.eachPageData.push(tempArr);
       }
     },
@@ -59,6 +50,22 @@ export default createStore({
       axios.get(apiUrl)
         .then((res) => {
           context.commit('getCat', res.data);
+          context.commit('getTotalNum', res.data);
+        })
+        .catch(() => {
+          context.commit('setLoading', false);
+        });
+    },
+    searchCatHandler(context, filterObj) {
+      const url = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
+      const { city, sex, color } = filterObj;
+      const apiUrl = `${url}&animal_kind=貓&shelter_address=${city}&animal_sex=${sex}&animal_colour=${color}`;
+      axios.get(apiUrl)
+        .then((res) => {
+          context.commit('getCat', res.data);
+        })
+        .catch(() => {
+          context.commit('setLoading', false);
         });
     },
   },

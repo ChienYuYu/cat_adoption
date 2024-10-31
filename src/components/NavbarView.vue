@@ -20,7 +20,7 @@
 export default {
   computed: {
     catNum() {
-      return this.$store.state.catData.length;
+      return this.$store.state.totalCat;
     },
   },
 };

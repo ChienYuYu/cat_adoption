@@ -64,13 +64,7 @@ export default {
       return '不明';
     }
 
-    // function goCatInfoPage(cat) {
-    //   console.log('cat obj==>', cat);
-    //   router.push(`/cat_info/${cat.animal_id}`);
-    // }
-
     function goCatInfoPage(cat) { // 開新分頁
-      console.log('cat obj==>', cat);
       const url = `${window.location.href}cat_info/${cat.animal_id}`;
       window.open(url, '_blank');
     }
