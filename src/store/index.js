@@ -54,6 +54,7 @@ export default createStore({
   },
   actions: {
     getApi(context) {
+      console.log('10311031^^^^^^^^^^^^');
       const apiUrl = 'https://data.moa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&IsTransData=1';
       axios.get(apiUrl)
         .then((res) => {
