@@ -28,19 +28,10 @@
         </option>
       </select>
     </div>
-    <div class="col-md-2 m-1">
-      <select class="form-select" aria-label="Default select example"
-        v-model="filterObj.year" @change="searchHandler()">
-        <option :value="''" disabled>資料建立年分</option>
-        <option  v-for="year in yearArr" :key="year" :value="year">{{ year }}</option>
-        <!-- <option :value="desc" >近→遠</option>
-        <option :value="asc" >遠→近</option> -->
-      </select>
-    </div>
   </div>
-  <div class="d-flex justify-content-center align-items-center mt-3"
-  data-aos="fade-left"  data-aos-duration="1500"
-  data-aos-once="true" data-aos-delay="50">
+  <div class="page_wrap d-flex justify-content-center align-items-center mt-3"
+    data-aos="fade-left"  data-aos-duration="1500"
+    data-aos-once="true" data-aos-delay="50">
     <div class="mx-1">
       <p class="text-secondary mb-0">
         總共 <span class="big-text"> {{ totalPage }} </span> 頁
@@ -55,6 +46,20 @@
   data-aos-once="true" data-aos-delay="300">
     目前第 {{ pageIndex }} 頁
   </p>
+  <div class="sort_wrap">
+    <div class="wrap">
+      <label for="r1" class="">
+        <input type="radio" id="r1" name="group1" @change="sortHandler('desc')"
+        :checked="sortType == 'desc'">
+        <p class="mb-0">資料建立日期：近→遠</p>
+      </label>
+      <label for="r2" class>
+        <input type="radio" id="r2" name="group1" @change="sortHandler('asc')"
+        :checked="sortType == 'asc'">
+        <p class="mb-0">資料建立日期：遠→近</p>
+      </label>
+    </div>
+  </div>
  </div>
 </template>
 
@@ -76,6 +81,7 @@ export default {
     });
     onMounted(() => {});
 
+    const sortType = computed(() => store.state.sortType);
     const totalPage = computed(() => store.state.totalPage);
     // const filterDataNum = computed(() => store.getters.filterShow.length);
     const filterDataNum = computed(() => store.state.catData.length);
@@ -105,6 +111,11 @@ export default {
     }
     year15();
 
+    function sortHandler(category) {
+      // desc降序 // 升序
+      store.commit('sortHandler', category);
+    }
+
     return {
       city,
       totalPage,
@@ -115,23 +126,62 @@ export default {
       filterObj,
       searchHandler,
       yearArr,
+      sortHandler,
+      sortType,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .big-text{
-    font-size: 2rem;
-    color: #f55;
+  .page_wrap {
+    .big-text{
+      font-size: 2rem;
+      color: #f55;
+      @media (max-width:360px) {
+        font-size: 1.5rem;
+      }
+    }
+    .reset-btn{
+      border:1px solid #f55;
+      color: #f55;
+      transition: .2s;
+      &:hover{
+        background: #f55;
+        color: #fff;
+      }
+      @media (max-width:360px) {
+        font-size: 14px;
+      }
+    }
   }
-  .reset-btn{
-    border:1px solid #f55;
-    color: #f55;
-    transition: .2s;
-    &:hover{
-      background: #f55;
-      color: #fff;
+
+  .sort_wrap{
+    // border: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+
+    .wrap{
+      width: 30%;
+      display: flex;
+      justify-content: space-around;
+      @media (max-width:1280px) {
+        width: 50%;
+      }
+      @media (max-width:575px) {
+        width: 100%;
+      }
+      label{
+        display: flex;
+        align-items: center;
+        input{
+          margin-right: 5px;
+        }
+        p{
+          font-size: 14px;
+        }
+      }
     }
   }
 </style>

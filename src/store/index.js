@@ -10,6 +10,7 @@ export default createStore({
     pageIndex: 0,
     cityAndSex: {},
     totalCat: 0,
+    sortType: 'desc',
 
   },
   getters: {
@@ -21,6 +22,7 @@ export default createStore({
     getCat(state, data) {
       state.pageIndex = 0;
       state.catData = data; // cat arr
+      this.commit('sortHandler', 'desc');
       state.isLoading = false;
     },
     getTotalNum(state, data) {
@@ -29,15 +31,31 @@ export default createStore({
     setLoading(state, tf) {
       state.isLoading = tf;
     },
-    countPage(state) {
+    // countPage(state) { // 30筆1頁
+    //   state.eachPageData = []; // 先清空 不然會累積越多
+    //   state.totalPage = Math.ceil(state.catData.length / 30);
+    //   for (let i = 0; i < state.totalPage; i += 1) {
+    //     const tempArr = state.catData.slice(i * 30, i * 30 + 30);
+    //     state.eachPageData.push(tempArr);
+    //   }
+    // },
+    countPage(state) { // 20241102 改10筆1頁
       state.eachPageData = []; // 先清空 不然會累積越多
-      state.totalPage = Math.ceil(state.catData.length / 30);
+      state.totalPage = Math.ceil(state.catData.length / 10);
       for (let i = 0; i < state.totalPage; i += 1) {
-        const tempArr = state.catData.slice(i * 30, i * 30 + 30);
+        const tempArr = state.catData.slice(i * 10, i * 10 + 10);
         state.eachPageData.push(tempArr);
       }
     },
-
+    sortHandler(state, category) {
+      state.pageIndex = 0; // 回到第1頁
+      if (category === 'desc') {
+        state.catData.sort((a, b) => new Date(b.animal_createtime) - new Date(a.animal_createtime));
+      } else if (category === 'asc') {
+        state.catData.sort((a, b) => new Date(a.animal_createtime) - new Date(b.animal_createtime));
+      }
+      console.log(state.catData, category);
+    },
     switchPage(state, calc) {
       if (calc === 'previous') { state.pageIndex -= 1; }
       if (calc === 'next') { state.pageIndex += 1; }
@@ -62,9 +80,8 @@ export default createStore({
         city,
         sex,
         color,
-        year,
       } = filterObj;
-      const apiUrl = `${url}&animal_kind=貓&shelter_address=${city}&animal_sex=${sex}&animal_colour=${color}&animal_createtime=${year}/`;
+      const apiUrl = `${url}&animal_kind=貓&shelter_address=${city}&animal_sex=${sex}&animal_colour=${color}`;
       axios.get(apiUrl)
         .then((res) => {
           context.commit('getCat', res.data);

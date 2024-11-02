@@ -45,7 +45,8 @@ window.location.href<template>
       @click="closeLightBox()" @keydown="closeLightBox()">
     <div class="img-btn-wrap">
       <img :src="cat.album_file" alt="cat pic">
-      <button class="close-btn " @click="closeLightBox()">close</button>
+      <!-- <button class="close-btn " @click="closeLightBox()">點擊螢幕可關閉</button> -->
+      <p class="close-tip text-center">再次點擊螢幕可關閉</p>
     </div>
   </div>
   </transition>
@@ -237,6 +238,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px);
 
     .img-btn-wrap {
       max-width: 95%;
@@ -254,15 +256,10 @@ export default {
         }
       }
 
-      .close-btn {
+      .close-tip {
         background: #fff;
         border: none;
         padding: .5rem 0;
-
-        &:hover {
-          background: #ddd;
-          color: #fff;
-        }
       }
     }
   }
