@@ -85,9 +85,11 @@ export default {
       return '不明';
     }
 
-    function goCatInfoPage(cat) { // 開新分頁
+    function goCatInfoPage(cat) {
+      // 開新分頁
       const url = `${window.location.href}cat_info/${cat.animal_id}`;
       window.open(url, '_blank');
+      // router.push(`/cat_info/${cat.animal_id}`);
     }
 
     function showPicHandler(pic) {
