@@ -49,7 +49,7 @@ export default createStore({
         state.catData.sort((a, b) => new Date(a.animal_createtime) - new Date(b.animal_createtime));
         state.sortType = 'asc';// 20241130
       }
-      console.log(state.catData, category);
+      // console.log(state.catData, category);
     },
     switchPage(state, calc) {
       if (calc === 'previous') { state.pageIndex -= 1; }

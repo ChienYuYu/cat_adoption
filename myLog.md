@@ -74,4 +74,5 @@ v2為composition api。<br>
 footer 文字大小調整<br>
 重設篩選，遠近排序問題修正<br>
 貓咪個別頁面header，流水編號改收容編號<br>
+新增firebase部署相關設定<br>
 版號 →(v4.3.1)<br>

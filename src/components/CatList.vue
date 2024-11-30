@@ -104,8 +104,8 @@ export default {
     function alarmHandler(dateString) {
       const catDataYear = new Date(dateString).getFullYear();
       const nowYear = new Date().getFullYear();
-      console.log('catDataYear', catDataYear);
-      console.log('nowYear', nowYear);
+      // console.log('catDataYear', catDataYear);
+      // console.log('nowYear', nowYear);
       if (nowYear - catDataYear >= 3) return true;
       return false;
     }
