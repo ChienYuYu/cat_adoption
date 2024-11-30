@@ -98,6 +98,7 @@ export default {
       filterObj.value.sex = '';
       filterObj.value.color = '';
       filterObj.value.year = '';
+      store.commit('resetSortType');
       store.dispatch('getApi');
     }
 

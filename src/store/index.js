@@ -31,14 +31,7 @@ export default createStore({
     setLoading(state, tf) {
       state.isLoading = tf;
     },
-    // countPage(state) { // 30筆1頁
-    //   state.eachPageData = []; // 先清空 不然會累積越多
-    //   state.totalPage = Math.ceil(state.catData.length / 30);
-    //   for (let i = 0; i < state.totalPage; i += 1) {
-    //     const tempArr = state.catData.slice(i * 30, i * 30 + 30);
-    //     state.eachPageData.push(tempArr);
-    //   }
-    // },
+
     countPage(state) { // 20241102 改10筆1頁
       state.eachPageData = []; // 先清空 不然會累積越多
       state.totalPage = Math.ceil(state.catData.length / 10);
@@ -47,18 +40,23 @@ export default createStore({
         state.eachPageData.push(tempArr);
       }
     },
-    sortHandler(state, category) {
+    sortHandler(state, category) { // 資料近到遠、遠到近排序
       state.pageIndex = 0; // 回到第1頁
       if (category === 'desc') {
         state.catData.sort((a, b) => new Date(b.animal_createtime) - new Date(a.animal_createtime));
+        state.sortType = 'desc';// 20241130
       } else if (category === 'asc') {
         state.catData.sort((a, b) => new Date(a.animal_createtime) - new Date(b.animal_createtime));
+        state.sortType = 'asc';// 20241130
       }
       console.log(state.catData, category);
     },
     switchPage(state, calc) {
       if (calc === 'previous') { state.pageIndex -= 1; }
       if (calc === 'next') { state.pageIndex += 1; }
+    },
+    resetSortType(state) { // 20241130
+      state.sortType = 'desc';
     },
   },
   actions: {

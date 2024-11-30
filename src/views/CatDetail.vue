@@ -8,7 +8,8 @@ window.location.href<template>
             給朕一個家
           </router-link>
         </h1>
-        <p class="mb-0">流水編號：<span style="color: #f00;">{{ cat.animal_id }}</span></p>
+        <!-- <p class="mb-0">流水編號：<span style="color: #f00;">{{ cat.animal_id }}</span></p> -->
+        <p class="mb-0">收容編號：<span style="color: #f00;">{{ cat.animal_subid }}</span></p>
       </div>
     </nav>
   </header>
