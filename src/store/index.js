@@ -22,6 +22,10 @@ export default createStore({
     getCat(state, data) {
       state.pageIndex = 0;
       state.catData = data; // cat arr
+      // 移除政府錯誤的資料' ex (狗key成貓的)
+      // 106070802 這筆是狗!
+      state.catData = data.filter((item) => item.animal_subid !== '106070802');
+      // ============================================
       this.commit('sortHandler', 'desc');
       state.isLoading = false;
     },
