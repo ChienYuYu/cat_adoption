@@ -25,12 +25,14 @@ export default createStore({
       // 移除政府錯誤的資料' ex (狗key成貓的)
       // 106070802 這筆是狗!
       state.catData = data.filter((item) => item.animal_subid !== '106070802');
+      const num = state.catData.length;
+      this.commit('getTotalNum', num);
       // ============================================
       this.commit('sortHandler', 'desc');
       state.isLoading = false;
     },
-    getTotalNum(state, data) {
-      state.totalCat = data.length;
+    getTotalNum(state, num) {
+      state.totalCat = num;
     },
     setLoading(state, tf) {
       state.isLoading = tf;
@@ -70,7 +72,7 @@ export default createStore({
       axios.get(apiUrl)
         .then((res) => {
           context.commit('getCat', res.data);
-          context.commit('getTotalNum', res.data);
+          // context.commit('getTotalNum', res.data);
         })
         .catch(() => {
           context.commit('setLoading', false);
